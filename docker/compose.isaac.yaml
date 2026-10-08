@@ -1,0 +1,69 @@
+# Isaac Sim container, kept separate from the ROS image so rebuilding the ROS
+# environment never touches this multi-GB image. It is pulled, not built.
+#
+#   docker login nvcr.io          # user: $oauthtoken, password: NGC API key
+#   docker network create hexabot_net     # one-time, shared with compose.yaml
+#   docker compose -f docker/compose.isaac.yaml up -d
+#   docker exec -it hexabot_isaac bash
+#
+# Requires an RTX GPU + NVIDIA Container Toolkit. NOTE: Isaac Sim's container
+# is officially supported on native Linux; Docker Desktop/WSL2 on Windows is
+# not supported by NVIDIA and may fail to render. If that happens, run this
+# file on a Linux machine and point both hosts at the same ROS_DOMAIN_ID.
+
+services:
+  isaac-sim:
+    image: nvcr.io/nvidia/isaac-sim:${ISAAC_SIM_VERSION:-5.0.0}
+    container_name: hexabot_isaac
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    environment:
+      ACCEPT_EULA: "Y"
+      PRIVACY_CONSENT: "Y"
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+      # Must match compose.yaml so the ROS 2 bridge can see the ROS container
+      ROS_DOMAIN_ID: "0"
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp
+      # Use the ROS 2 Humble libraries bundled inside Isaac Sim
+      LD_LIBRARY_PATH: /isaac-sim/exts/isaacsim.ros2.bridge/humble/lib
+      DISPLAY: ${DISPLAY:-:0}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      # Shared project files: URDF/USD assets and scripts used by both sides
+      - ../ros_ws:/workspace/ros_ws
+      - ../sim:/workspace/sim
+      # Persistent caches so shaders/assets are not re-downloaded after rebuilds
+      - isaac_cache_kit:/isaac-sim/kit/cache
+      - isaac_cache_ov:/root/.cache/ov
+      - isaac_cache_pip:/root/.cache/pip
+      - isaac_cache_gl:/root/.cache/nvidia/GLCache
+      - isaac_cache_compute:/root/.nv/ComputeCache
+      - isaac_logs:/root/.nvidia-omniverse/logs
+      - isaac_data:/root/.local/share/ov/data
+      - isaac_docs:/root/Documents
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    networks:
+      - hexabot_net
+
+networks:
+  hexabot_net:
+    name: hexabot_net
+    external: true
+
+volumes:
+  isaac_cache_kit:
+  isaac_cache_ov:
+  isaac_cache_pip:
+  isaac_cache_gl:
+  isaac_cache_compute:
+  isaac_logs:
+  isaac_data:
+  isaac_docs:

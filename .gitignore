@@ -1,0 +1,86 @@
+# ROS 2 / colcon workspace outputs
+build/
+install/
+log/
+/build*/
+/install*/
+/log*/
+.colcon_install_layout
+
+# CMake / C++
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+compile_commands.json
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.eggs/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+
+# Logs and runtime data
+*.log
+logs/
+*.pid
+*.bag
+*.db3
+*.mcap
+rosbag2_*/
+
+# Simulation caches (Isaac Sim / Gazebo)
+.cache/
+.nv/
+ov/
+*.usd_backup
+*.usd.autosave
+
+# Docker local overrides
+docker/.env
+.env
+.env.*
+!.env.example
+docker-compose.override.yml
+compose.override.yaml
+
+# Secrets
+*.pem
+*.key
+
+# Editors / IDEs
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

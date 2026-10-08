@@ -1,0 +1,50 @@
+# ROS 2 Humble development container for the hexapod.
+#
+#   docker compose -f docker/compose.yaml up -d --build
+#   docker exec -it hexabot_ros bash
+#
+# Isaac Sim runs separately (compose.isaac.yaml). Both attach to the external
+# "hexabot_net" network so ROS 2 DDS discovery works between them:
+#   docker network create hexabot_net     # one-time
+
+services:
+  ros-humble:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hexabot-ros:humble
+    container_name: hexabot_ros
+    working_dir: /home/ros/ros_ws
+    volumes:
+      - ../ros_ws:/home/ros/ros_ws
+      # GPU (WSL2): Windows GPU driver libs, used by Mesa's d3d12 driver
+      - /usr/lib/wsl:/usr/lib/wsl:ro
+      # Display: WSLg's built-in X server (no VcXsrv needed)
+      - /run/desktop/mnt/host/wslg/.X11-unix:/tmp/.X11-unix
+      - /run/desktop/mnt/host/wslg:/mnt/wslg
+    devices:
+      # GPU (WSL2): paravirtualized GPU device
+      - /dev/dxg:/dev/dxg
+    environment:
+      # Must match ROS_DOMAIN_ID and RMW in compose.isaac.yaml
+      ROS_DOMAIN_ID: "0"
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp
+      DISPLAY: ":0"
+      WAYLAND_DISPLAY: wayland-0
+      XDG_RUNTIME_DIR: /mnt/wslg/runtime-dir
+      # Render OpenGL on the NVIDIA GPU through WSL instead of on the CPU
+      LD_LIBRARY_PATH: /usr/lib/wsl/lib
+      GALLIUM_DRIVER: d3d12
+      MESA_D3D12_DEFAULT_ADAPTER_NAME: NVIDIA
+    networks:
+      - hexabot_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+
+networks:
+  hexabot_net:
+    name: hexabot_net
+    external: true
