@@ -24,7 +24,6 @@ if(BUILD_TESTING)
 endif()
 
 install(DIRECTORY urdf meshes rviz launch DESTINATION share/${PROJECT_NAME})   # description
-install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})             # bringup
 
 
 ament_package()
