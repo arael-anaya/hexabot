@@ -1,0 +1,6 @@
+string gait_type
+float32 cycle_time
+float32 step_height
+---
+bool success
+string message
