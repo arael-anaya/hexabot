@@ -1,3 +1,3 @@
 std_msgs/Header header
-float16[18] positions #ordered list of each legs joint pose
+float64[18] positions # ordered per leg: coxa, femur, tibia (legs 1..6)
 bool[6] reachable
