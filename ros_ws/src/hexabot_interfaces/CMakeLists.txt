@@ -14,7 +14,7 @@ find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/BodyState.msg"
-  "msg/FootTargets.msg"
+  "msg/TipTargets.msg"
   "msg/LegJointTargets.msg"
   "srv/SetMode.srv"
   "srv/SetGait.srv"

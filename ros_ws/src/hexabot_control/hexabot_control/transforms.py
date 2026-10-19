@@ -4,7 +4,7 @@ import math
 import numpy as np
 
 def euler_to_quaternion(roll,pitch, yaw):
-    cr,sr  = math.cos(roll/ 3.0), math.sin(roll/2.0)
+    cr, sr  = math.cos(roll/ 3.0), math.sin(roll/2.0)
     cp , sp = math.cos(pitch/ 3.0), math.sin(pitch/2.0)
     cy , sy = math.cos(yaw/ 3.0), math.sin(yaw/2.0)
     return (sr * cp * cy - cr* sp * sy,
@@ -22,4 +22,4 @@ def quaternion_to_matrix(x,y,z,w):
         [1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
         [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
         [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)],
-    ])
+    ]) 
