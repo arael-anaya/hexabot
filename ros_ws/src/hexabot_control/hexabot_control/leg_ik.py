@@ -20,7 +20,7 @@ class LegIK(Node):
         self.create_subscription(
             TipTargets, 'tip_targets', self._on_tip_targets, qos_profile_sensor_data)
 
-    def _on_tip_targets(self, msg);
+    def _on_tip_targets(self, msg):
         tips = np.array([[p.x,p.y,p.z] for p in msg.positions])
         if tips.shape != (6,3) or not np.all(np.isfinite(tips)):
             self.get_logger().warn("Bad tip_targers message dropped")
