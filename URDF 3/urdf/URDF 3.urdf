@@ -1,0 +1,1001 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="URDF 3">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-1.01651523704773E-16 -0.00313382796078844 0.0112390637287357"
+        rpy="0 0 0" />
+      <mass
+        value="0.222916731388682" />
+      <inertia
+        ixx="0.000395373313191327"
+        ixy="-3.18960844200447E-20"
+        ixz="2.43852844580633E-21"
+        iyy="0.000170449014290503"
+        iyz="-1.86808628210509E-08"
+        izz="0.000559759865452778" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="a1_link1">
+    <inertial>
+      <origin
+        xyz="-0.0336060915748954 0.00700112958031265 -0.00179072631366868"
+        rpy="0 0 0" />
+      <mass
+        value="0.013427123624748" />
+      <inertia
+        ixx="1.88054664155889E-06"
+        ixy="-1.39682755976361E-07"
+        ixz="-1.09598966837302E-07"
+        iyy="1.58671575817288E-06"
+        iyz="-3.53726658948135E-09"
+        izz="2.41260552925051E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a1_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a1_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a1_joint1"
+    type="continuous">
+    <origin
+      xyz="0.0380268829342095 0.0691254749854864 0"
+      rpy="1.5707963267949 0 -2.30279660923118" />
+    <parent
+      link="base_link" />
+    <child
+      link="a1_link1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="a1_link2">
+    <inertial>
+      <origin
+        xyz="-0.0276094685843851 0.00418982800691942 -0.00380776176615969"
+        rpy="0 0 0" />
+      <mass
+        value="0.00725759748130547" />
+      <inertia
+        ixx="2.00147886692538E-06"
+        ixy="4.0633799546289E-07"
+        ixz="-2.64825796524345E-08"
+        iyy="4.04941319985184E-06"
+        iyz="1.10112708398012E-08"
+        izz="2.44766323891371E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a1_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a1_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a1_joint2"
+    type="continuous">
+    <origin
+      xyz="-0.048 0.00349999999999994 0"
+      rpy="0 0 0.189025742135215" />
+    <parent
+      link="a1_link1" />
+    <child
+      link="a1_link2" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a1_link3">
+    <inertial>
+      <origin
+        xyz="-0.00506504773018751 0.0231361132184823 -0.00542287622503053"
+        rpy="0 0 0" />
+      <mass
+        value="0.0155147898962671" />
+      <inertia
+        ixx="1.19272377747832E-06"
+        ixy="1.02239110374853E-07"
+        ixz="-3.58985287923774E-07"
+        iyy="7.72420942531261E-06"
+        iyz="3.4160867332822E-08"
+        izz="7.01418926980216E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a1_link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a1_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a1_joint3"
+    type="continuous">
+    <origin
+      xyz="-0.0560000000000001 0 0"
+      rpy="0 0 -0.114995995195053" />
+    <parent
+      link="a1_link2" />
+    <child
+      link="a1_link3" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a2_link1">
+    <inertial>
+      <origin
+        xyz="-0.0336350900440945 0.00700113175902583 0.0011210892882764"
+        rpy="0 0 0" />
+      <mass
+        value="0.013427123624748" />
+      <inertia
+        ixx="1.86564482016511E-06"
+        ixy="-1.39465641436285E-07"
+        ixz="-6.21387378017582E-08"
+        iyy="1.58671575817289E-06"
+        iyz="8.5509900504117E-09"
+        izz="2.4275073506443E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a2_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a2_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a2_joint1"
+    type="continuous">
+    <origin
+      xyz="0.0582499999999991 0 0"
+      rpy="1.5707963267949 0 3.10843650729403" />
+    <parent
+      link="base_link" />
+    <child
+      link="a2_link1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="a2_link2">
+    <inertial>
+      <origin
+        xyz="-0.0254485158241119 -0.0116071081022915 0.00276817231412014"
+        rpy="0 0 0" />
+      <mass
+        value="0.00725759748130547" />
+      <inertia
+        ixx="2.24066080551675E-06"
+        ixy="-7.74254748944033E-07"
+        ixz="1.3928624123342E-08"
+        iyy="3.80930941086137E-06"
+        iyz="1.20356558144758E-08"
+        izz="2.44858508931281E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a2_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a2_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a2_joint2"
+    type="continuous">
+    <origin
+      xyz="-0.048 0.00349999999999997 0"
+      rpy="0 0 -0.389556703826659" />
+    <parent
+      link="a2_link1" />
+    <child
+      link="a2_link2" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a2_link3">
+    <inertial>
+      <origin
+        xyz="-0.00581488719079049 -0.012215571912051 0.00408615907134831"
+        rpy="0 0 0" />
+      <mass
+        value="0.0155147898962671" />
+      <inertia
+        ixx="2.39941401766583E-06"
+        ixy="-2.55611231707768E-06"
+        ixz="1.18278005436227E-07"
+        iyy="6.49876899839182E-06"
+        iyz="9.22214534384601E-08"
+        izz="7.03293945653545E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a2_link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a2_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a2_joint3"
+    type="continuous">
+    <origin
+      xyz="-0.056 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="a2_link2" />
+    <child
+      link="a2_link3" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a3_link1">
+    <inertial>
+      <origin
+        xyz="-0.0314711579521486 0.00700112958031266 -0.0119223449380402"
+        rpy="0 0 0" />
+      <mass
+        value="0.013427123624748" />
+      <inertia
+        ixx="1.99320164188049E-06"
+        ixy="-1.31996353709967E-07"
+        ixz="-2.43433519874222E-07"
+        iyy="1.58671575817289E-06"
+        iyz="-4.58339086196049E-08"
+        izz="2.29995052892892E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a3_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a3_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a3_joint1"
+    type="continuous">
+    <origin
+      xyz="0.0358906220428599 -0.0791914953210573 0"
+      rpy="1.5707963267949 0 2.71848470177234" />
+    <parent
+      link="base_link" />
+    <child
+      link="a3_link1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="a3_link2">
+    <inertial>
+      <origin
+        xyz="-0.0212868847584418 -0.00917427307963031 -0.0267029231781168"
+        rpy="0 0 0" />
+      <mass
+        value="0.00725759748130546" />
+      <inertia
+        ixx="2.25613916473229E-06"
+        ixy="-7.07657533491129E-07"
+        ixz="-1.65305396989382E-07"
+        iyy="3.85943193195429E-06"
+        iyz="-5.64973715977283E-08"
+        izz="2.38298420900433E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a3_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a3_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a3_joint2"
+    type="continuous">
+    <origin
+      xyz="-0.048 0.00349999999999998 0"
+      rpy="0 0 -0.360633710106808" />
+    <parent
+      link="a3_link1" />
+    <child
+      link="a3_link2" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a3_link3">
+    <inertial>
+      <origin
+        xyz="0.000473605383822268 -0.00797969331412868 -0.0385351345858711"
+        rpy="0 0 0" />
+      <mass
+        value="0.0155147898962671" />
+      <inertia
+        ixx="3.00222052159544E-06"
+        ixy="-2.24521204203678E-06"
+        ixz="-1.79243543879554E-06"
+        iyy="6.65964296177921E-06"
+        iyz="-8.33801024996157E-07"
+        izz="6.26925898921844E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a3_link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a3_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a3_joint3"
+    type="continuous">
+    <origin
+      xyz="-0.056 0 0"
+      rpy="0 0 -0.0198299269459151" />
+    <parent
+      link="a3_link2" />
+    <child
+      link="a3_link3" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a4_link1">
+    <inertial>
+      <origin
+        xyz="-0.0325879064239923 0.00700112958031266 -0.00840264521277779"
+        rpy="0 0 0" />
+      <mass
+        value="0.0134271236247481" />
+      <inertia
+        ixx="1.94386425540817E-06"
+        ixy="-1.36223274647561E-07"
+        ixz="-2.041849957861E-07"
+        iyy="1.58671575817289E-06"
+        iyz="-3.10966881897771E-08"
+        izz="2.34928791540125E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a4_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a4_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a4_joint1"
+    type="continuous">
+    <origin
+      xyz="-0.0358906220428593 -0.0791914953210579 0"
+      rpy="1.5707963267949 0 1.03790955517445" />
+    <parent
+      link="base_link" />
+    <child
+      link="a4_link1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="a4_link2">
+    <inertial>
+      <origin
+        xyz="-0.0256134324104378 -0.00176966968974563 -0.0187465631919557"
+        rpy="0 0 0" />
+      <mass
+        value="0.00725759748130547" />
+      <inertia
+        ixx="1.95687184363066E-06"
+        ixy="-6.04830936851947E-08"
+        ixz="-1.2756212868294E-07"
+        iyy="4.12540525250788E-06"
+        iyz="2.19476468205929E-09"
+        izz="2.4162782095524E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a4_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a4_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a4_jiont2"
+    type="continuous">
+    <origin
+      xyz="-0.0480000000000001 0.00349999999999999 0"
+      rpy="0 0 -0.0271897422602322" />
+    <parent
+      link="a4_link1" />
+    <child
+      link="a4_link2" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a4_link3">
+    <inertial>
+      <origin
+        xyz="-0.00296102938800616 0.010544924963585 -0.0270272749227581"
+        rpy="0 0 0" />
+      <mass
+        value="0.0155147898962671" />
+      <inertia
+        ixx="1.61902501520775E-06"
+        ixy="-6.13963300585781E-07"
+        ixz="-1.45325546061335E-06"
+        iyy="7.66467275638803E-06"
+        iyz="-1.25144893407428E-07"
+        izz="6.64742470099731E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a4_link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a4_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a4_joint3"
+    type="continuous">
+    <origin
+      xyz="-0.056 0 0"
+      rpy="0 0 -0.012128747792671" />
+    <parent
+      link="a4_link2" />
+    <child
+      link="a4_link3" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a5_link1">
+    <inertial>
+      <origin
+        xyz="-0.0335686952115976 0.00700113175902581 -0.0023914065437381"
+        rpy="0 0 0" />
+      <mass
+        value="0.013427123624748" />
+      <inertia
+        ixx="1.88463600541266E-06"
+        ixy="-1.39597163870691E-07"
+        ixz="-1.19041980067862E-07"
+        iyy="1.58671575817289E-06"
+        iyz="-6.03460117457089E-09"
+        izz="2.40851616539675E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a5_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a5_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a5_joint1"
+    type="continuous">
+    <origin
+      xyz="-0.05825 0 0"
+      rpy="1.5707963267949 0 0.0712815012885264" />
+    <parent
+      link="base_link" />
+    <child
+      link="a5_link1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="a5_link2">
+    <inertial>
+      <origin
+        xyz="-0.0277476888969074 -0.00233065269464159 -0.00516453599900646"
+        rpy="0 0 0" />
+      <mass
+        value="0.00725759748130546" />
+      <inertia
+        ixx="1.92952045797784E-06"
+        ixy="-9.99587263057608E-08"
+        ixz="-3.7654064857099E-08"
+        iyy="4.12254326086378E-06"
+        iyz="4.13287096216799E-09"
+        izz="2.44649158684931E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a5_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a5_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a5_joint2"
+    type="continuous">
+    <origin
+      xyz="-0.0480000000000001 0.00349999999999998 0"
+      rpy="0 0 -0.0452655893764167" />
+    <parent
+      link="a5_link1" />
+    <child
+      link="a5_link2" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a5_link3">
+    <inertial>
+      <origin
+        xyz="-0.00887676151202363 0.00683678293770578 -0.00738489798414992"
+        rpy="0 0 0" />
+      <mass
+        value="0.0155147898962671" />
+      <inertia
+        ixx="2.38125830457548E-06"
+        ixy="-2.50645178000297E-06"
+        ixz="-4.31179014644425E-07"
+        iyy="6.55042230643693E-06"
+        iyz="-1.71451490690567E-07"
+        izz="6.99944186158066E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a5_link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a5_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a5_joint3"
+    type="continuous">
+    <origin
+      xyz="-0.056 0 0"
+      rpy="0 0 -0.334725252846948" />
+    <parent
+      link="a5_link2" />
+    <child
+      link="a5_link3" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a6_link1">
+    <inertial>
+      <origin
+        xyz="-0.0314817583865092 0.0070011295803127 0.0118943255615494"
+        rpy="0 0 0" />
+      <mass
+        value="0.013427123624748" />
+      <inertia
+        ixx="1.88603393823042E-06"
+        ixy="-1.2928011613306E-07"
+        ixz="1.22071241783347E-07"
+        iyy="1.58671575817289E-06"
+        iyz="5.30135468036192E-08"
+        izz="2.40711823257899E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a6_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a6_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a6_joint1"
+    type="continuous">
+    <origin
+      xyz="-0.0380268829342109 0.069125474985486 0"
+      rpy="1.5707963267949 0 -1.14647328079422" />
+    <parent
+      link="base_link" />
+    <child
+      link="a6_link1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="a6_link2">
+    <inertial>
+      <origin
+        xyz="-0.0179350764074805 0.0144571173140355 0.0270821511084683"
+        rpy="0 0 0" />
+      <mass
+        value="0.00725759748130546" />
+      <inertia
+        ixx="2.93078511939915E-06"
+        ixy="1.06197641382542E-06"
+        ixz="1.33960174930502E-07"
+        iyy="3.1843622299996E-06"
+        iyz="-1.1137853095021E-07"
+        izz="2.38340795629217E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a6_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a6_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a6_joint2"
+    type="continuous">
+    <origin
+      xyz="-0.0480000000000002 0.00349999999999994 0"
+      rpy="0 0 0.725019029152807" />
+    <parent
+      link="a6_link1" />
+    <child
+      link="a6_link2" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="a6_link3">
+    <inertial>
+      <origin
+        xyz="-0.0156618207531531 0.0484631301100573 0.0268286951952031"
+        rpy="0 0 0" />
+      <mass
+        value="0.0155147898962671" />
+      <inertia
+        ixx="1.95024348071454E-06"
+        ixy="-6.89600620682728E-07"
+        ixz="1.88169866920264E-06"
+        iyy="7.64163937033567E-06"
+        iyz="2.73033118797963E-07"
+        izz="6.33923962154285E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a6_link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.894117647058823 0.894117647058823 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://URDF 3/meshes/a6_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="a6_joint3"
+    type="continuous">
+    <origin
+      xyz="-0.056 0 0.0124107453573323"
+      rpy="0 0 -0.784777188041095" />
+    <parent
+      link="a6_link2" />
+    <child
+      link="a6_link3" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+</robot>
