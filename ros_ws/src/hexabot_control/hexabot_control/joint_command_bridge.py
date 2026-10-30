@@ -61,6 +61,15 @@ class JointCommandBridge(Node):
 
     def _on_targets(self, msg):
         target = np.array(msg.positions, dtype=float)
+        if target.shape != (NUM_JOINTS,) or not np.all(np.isfinite(target)):
+            self.get_logger().warn('Bad leg_joint_targets dropped', throttle_duration_sec=2.0)
+            return
+
+        self.target = target
+        self.laxt_rx = self.get_clock().now()
+        if self.first_rx is None:
+            self.first_rx = self.laxt_rx
+        
     
 
 
