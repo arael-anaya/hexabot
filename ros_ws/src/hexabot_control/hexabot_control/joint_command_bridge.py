@@ -27,7 +27,7 @@ class JointCommandBridge(Node):
         self.min = np.array(d('joint_min', DEFAULT_JOINT_MIN).value, dtype=float)
         self.max = np.array(d('joint_max', DEFAULT_JOINT_MIN).value, dtype=float)
         self.max_vel = d('max_joint_vel', 6.0).value
-        self.watchdow = d('watchdog_timeout' , 0.2).value
+        self.watchdog = d('watchdog_timeout' , 0.2).value
         self.startup_wait = d('statup_wait' , 1.0).value
         self.dt = 1.0 / d('publish_rate', 100.0).value
         command_topic = d('command_topic' , '/issac/joint_command').value
@@ -69,7 +69,63 @@ class JointCommandBridge(Node):
         self.laxt_rx = self.get_clock().now()
         if self.first_rx is None:
             self.first_rx = self.laxt_rx
-        
+
+    def _on_joint_states(self,msg):
+        for name, pos in zip(msg.name, msg.position):
+            self.actual[name] = pos
+
+    def _to_hardware(self, model):
+        return np.clip(self.sign* model + self.offset, self.jmin, self.jmax)
+
+    def _initial_pose(self, now):
+        if all (n in self.actual for n in self.names):
+            return np.array([self.actual[n] for n in self.names])
+        if (now - self.first_rx).nanoseconds * 1e-9 > self.startup_wait:
+            self.get_logger().warn('No joint_states received, starting from the first target')
+            return self._to_hardware(self.target)
+        return None
+
+    def _tick(self):
+        if self.target is None:
+            return
+        now = self.get_clock().now()
+        if self.prev is None:
+            self.prev = self._initial_pose(now)
+        if (now - self.laxt_rx).nanoseconds * 1e-9 > self.watchdog:
+            self.get_logger().warn(
+                'No leg_joint_targets, holding last pose', throttle_duration_sec = 2.0)
+        else:
+            goal = self._to_hardware(self.target)
+            self.prev = slew_array(self.prev, goal, self.max_vel * self.dt)
+        self._publish(now)
+
+
+    def _publish(self, now):
+        if self.backend == 'issac':
+            msg = JointState()
+            msg.header.stamp = now.to_msg()
+            msg.name = self.names
+            msg.position = self.prev.tolist()
+        else:
+            point = JointTrajectoryPoint()
+            point.positions = self.prev.tolist()
+            point.time_from_start = Duration(sec=0, nanosec=int(2e9 * self. dt))
+            msg =  JointTrajectory()
+            msg.joint_names = self.names
+            msg.points = [point]
+        self.pub.publish(msg)
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = JointCommandBridge()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()  
     
 
 
