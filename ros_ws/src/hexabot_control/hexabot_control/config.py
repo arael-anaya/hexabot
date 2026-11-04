@@ -14,22 +14,30 @@ MODE_STAND = 1
 MODE_WALK = 2
 MODE_ESTOP = 3
 
-# Leg order, viewed from above, clockwise from the front-right leg:
-#   1 front-right, 2 mid-right, 3 rear-right, 4 rear-left, 5 mid-left, 6 front-left
-# Body frame: +x forward, +y left, +z up.
-# TODO: every value below is a PLACEHOLDER. Replace with the real dimensions from CAD.
+
 DEFAULT_MOUNT_POSITIONS = [
-    0.10, -0.06, 0.0,
-    0.00, -0.08, 0.0,
-    -0.10, -0.06, 0.0,
-    -0.10, 0.06, 0.0,
-    0.00, 0.08, 0.0,
-    0.10, 0.06, 0.0,
+    0.038027, 0.069125, 0.0,
+    0.058250, 0.000000, 0.0,
+    0.035891, -0.079191, 0.0,
+    -0.035891, -0.079191, 0.0,
+    -0.058250, 0.000000, 0.0,
+    -0.038027, 0.069125, 0.0,
 ]
-DEFAULT_MOUNT_YAW = [math.radians(a) for a in (-45.0, -90.0, -135.0, 135.0, 90.0, 45.0)]
-DEFAULT_LINK1 = 0.05
-DEFAULT_LINK2 = 0.10
-DEFAULT_LINK3 = 0.15
+DEFAULT_MOUNT_YAW = [1.067866, 0.000000, -1.145274, -1.996319, 3.141593, 2.073727]
+
+DEFAULT_JOINT_SIGN = [1.0, -1.0, -1.0] * 6
+
+DEFAULT_JOINT_OFFSET = [
+    0.229070, -0.189026, 0.114996,
+    0.033156, 0.389557, -0.000000,
+    -0.722166, 0.360634, 0.019830,
+    0.107364, 0.027190, 0.012129,
+    -0.071282, 0.045266, 0.334725,
+    0.078608, -0.725019, 0.784777,
+]
+DEFAULT_LINK1 = 0.048  # joint 1 -> joint 2 (a*_joint2 origin x)
+DEFAULT_LINK2 = 0.056  # joint 2 -> joint 3 (a*_joint3 origin x)
+DEFAULT_LINK3 = 0.068  # joint 3 -> foot tip (link3 mesh extent, URDF has no foot link)
 
 
 @dataclass(frozen=True)
@@ -45,7 +53,7 @@ def default_joint_names():
     names = []
     for leg in range(1, NUM_LEGS + 1):
         for joint in (1, 2, 3):
-            names.append(f'leg{leg}_joint{joint}')
+            names.append(f'a{leg}_joint{joint}')
     return names
 
 

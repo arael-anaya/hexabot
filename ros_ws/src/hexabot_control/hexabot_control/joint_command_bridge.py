@@ -8,7 +8,8 @@ from rclpy.quos import qos_profile_sensor_data
 from sensor.msgs.msg import JointState
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
-from hexabot_control.config import NUM_JOINTS, default_joint_names
+from hexabot_control.config import (
+    DEFAULT_JOINT_OFFSET, DEFAULT_JOINT_SIGN, NUM_JOINTS, default_joint_names)
 from hexabot_control.limits import slew_array
 from hexabot_interfaces.msg import LegJointTargets
 
@@ -22,8 +23,8 @@ class JointCommandBridge(Node):
         d = self.declare_parameter
         self.backend = d('backend', 'issac').value #seaps between issac or real world
         self.names = list(d('joint_names', default_joint_names()).value)
-        self.sign = np.array(d('joint_sign', [1.0] * NUM_JOINTS).value, dtype=float)
-        self.offset = np.array(d('joint_offset', [0.0] * NUM_JOINTS).value, dtype=float)
+        self.sign = np.array(d('joint_sign', DEFAULT_JOINT_SIGN).value, dtype=float)
+        self.offset = np.array(d('joint_offset', DEFAULT_JOINT_OFFSET).value, dtype=float)
         self.min = np.array(d('joint_min', DEFAULT_JOINT_MIN).value, dtype=float)
         self.max = np.array(d('joint_max', DEFAULT_JOINT_MIN).value, dtype=float)
         self.max_vel = d('max_joint_vel', 6.0).value
