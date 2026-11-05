@@ -28,16 +28,16 @@ DEFAULT_MOUNT_YAW = [1.067866, 0.000000, -1.145274, -1.996319, 3.141593, 2.07372
 DEFAULT_JOINT_SIGN = [1.0, -1.0, -1.0] * 6
 
 DEFAULT_JOINT_OFFSET = [
-    0.229070, -0.189026, 0.114996,
-    0.033156, 0.389557, -0.000000,
-    -0.722166, 0.360634, 0.019830,
-    0.107364, 0.027190, 0.012129,
-    -0.071282, 0.045266, 0.334725,
-    0.078608, -0.725019, 0.784777,
+    0.282468, 0.000000, 0.031817,
+    0.000000, 0.000000, 0.031817,
+    -0.359875, 0.000000, 0.031817,
+    0.273164, 0.093948, -0.168169,
+    0.000983, 0.000000, 0.031817,
+    -0.282468, 0.000000, 0.031817,
 ]
-DEFAULT_LINK1 = 0.048  # joint 1 -> joint 2 (a*_joint2 origin x)
-DEFAULT_LINK2 = 0.056  # joint 2 -> joint 3 (a*_joint3 origin x)
-DEFAULT_LINK3 = 0.068  # joint 3 -> foot tip (link3 mesh extent, URDF has no foot link)
+DEFAULT_LINK1 = 0.032515  # joint 1 -> joint 2 (|a*_joint2 origin xy|)
+DEFAULT_LINK2 = 0.058000  # joint 2 -> joint 3 (|a*_joint3 origin xy|)
+DEFAULT_LINK3 = 0.073265  # joint 3 -> foot tip (link3 mesh tip, URDF has no foot link)
 
 
 # Class for robot geometry
