@@ -14,7 +14,7 @@ import numpy as np
 
 from hexabot_control.config import NUM_LEGS
 
-
+# solves fk
 def leg_fk(q, link1, link2, link3):
     q1, q2, q3 = q
     r = link1 + link2 * math.cos(q2) + link3 * math.cos(q2 + q3)

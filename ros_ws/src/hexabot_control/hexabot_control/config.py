@@ -40,6 +40,7 @@ DEFAULT_LINK2 = 0.056  # joint 2 -> joint 3 (a*_joint3 origin x)
 DEFAULT_LINK3 = 0.068  # joint 3 -> foot tip (link3 mesh extent, URDF has no foot link)
 
 
+# Class for robot geometry
 @dataclass(frozen=True)
 class RobotGeometry:
     mount_xyz: np.ndarray  # (6, 3) joint 1 position in the body frame
@@ -48,7 +49,7 @@ class RobotGeometry:
     link2: float
     link3: float
 
-
+# Names joints
 def default_joint_names():
     names = []
     for leg in range(1, NUM_LEGS + 1):
@@ -56,7 +57,7 @@ def default_joint_names():
             names.append(f'a{leg}_joint{joint}')
     return names
 
-
+# loads robot geometry
 def load_geometry(node):
     """Declare and read the shared geometry parameters on a node."""
     positions = node.declare_parameter('leg_mount_positions', DEFAULT_MOUNT_POSITIONS).value
