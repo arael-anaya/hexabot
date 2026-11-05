@@ -47,6 +47,7 @@ def leg_ik(tip, link1, link2, link3, margin=1e-3):
     return np.array([q1, q2, q3]), reachable
 
 
+
 def body_to_leg(p_body, mount_xyz, mount_yaw):
     d = np.asarray(p_body, dtype=float) - mount_xyz
     c, s = math.cos(mount_yaw), math.sin(mount_yaw)

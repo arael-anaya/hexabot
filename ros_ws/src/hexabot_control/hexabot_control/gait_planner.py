@@ -4,6 +4,7 @@ from enum import Enum, auto
 from std_msgs.msg import String, Bool
 from geometry_msgs.msg import Twist
 
+from gait_matching.py import neutral_tips, leg_phases, tip_trajectory, compute_tip_targets
 
 class HexapodState(Enum):
     STOP = auto()
@@ -16,6 +17,13 @@ class HexapodState(Enum):
     RIPPLE_FORWARD = auto()
     RIPPLE_REVERSE = auto()
 
+    TRIPOD_RIGHT = auto()
+    TRIPOD_LEFT = auto()
+    WAVE_RIGHT = auto()
+    WAVE_LEFT = auto()
+    RIPPLE_RIGHT = auto()
+    RIPPLE_LEFT = auto()
+
 
 class HexapodFSMNode(Node):
     def __init__(self):
@@ -27,7 +35,7 @@ class HexapodFSMNode(Node):
         self.direction = True   # True = Forward, False = Reverse
 
         # FSM State tracking
-        self.current_state = HexapodState.IDLE
+        self.current_state = HexapodState.STOP
 
         # Subscribers for boolean inputs
         self.create_subscription(
