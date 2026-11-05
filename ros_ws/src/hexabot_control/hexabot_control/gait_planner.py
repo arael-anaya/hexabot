@@ -3,6 +3,7 @@ from rclpy.node import Node
 from enum import Enum, auto
 from std_msgs.msg import String, Bool
 from geometry_msgs.msg import Twist
+from MoveCmd.msg import MoveCmd
 
 from gait_matching.py import neutral_tips, leg_phases, tip_trajectory, compute_tip_targets
 
@@ -39,13 +40,16 @@ class HexapodFSMNode(Node):
 
         # Subscribers for boolean inputs
         self.create_subscription(
-            Bool, 'hexapod/cmd_move', self.move_callback, 10
+            MoveCmd, 'move', self.move_callback, 10
         )
         self.create_subscription(
-            Bool, 'hexapod/cmd_type', self.type_callback, 10
+            MoveCmd, 'type', self.type_callback, 10
         )
         self.create_subscription(
-            Bool, 'hexapod/cmd_direction', self.direction_callback, 10
+            MoveCmd, 'dir', self.direction_callback, 10
+        )
+        self.create_subscription(
+            MoveCmd, 'gait', self.direction_callback, 10
         )
 
         # Publishers for FSM status and velocity commands

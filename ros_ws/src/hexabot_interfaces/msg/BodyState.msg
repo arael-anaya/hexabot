@@ -1,5 +1,5 @@
 std_msgs/Header header
-uint8 mode #0=SIT 1=STAND 2=WALK 3=ESTOP
-geometry_msgs/Twist velocity # body-frame command, limited already (?)
-geometry_msgs/Pose pose_offset # body height, roll, pitch, yaw offset
-string gait_type
+uint8 gait # 0=TRIPOD 1=RIPPLE 2=WAVE
+bool move # 0=OFF 1=ON
+bool type # 0=WALK 1=TURN
+bool dir # 0=FWD/CW 1=BKD/CCW
