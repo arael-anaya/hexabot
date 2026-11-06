@@ -3,9 +3,10 @@
 #   docker compose -f docker/compose.yaml up -d --build
 #   docker exec -it hexabot_ros bash
 #
-# Isaac Sim runs separately (compose.isaac.yaml). Both attach to the external
-# "hexabot_net" network so ROS 2 DDS discovery works between them:
-#   docker network create hexabot_net     # one-time
+# Isaac Sim runs natively on Windows (see docker/ISAAC_WINDOWS.md), not in
+# Docker: its RTX renderer does not work inside WSL2 containers. This container
+# uses host networking so ROS 2 DDS discovery reaches Isaac Sim on Windows.
+# That needs WSL "mirrored" networking (see ISAAC_WINDOWS.md).
 
 services:
   ros-humble:
@@ -26,7 +27,7 @@ services:
       # GPU (WSL2): paravirtualized GPU device
       - /dev/dxg:/dev/dxg
     environment:
-      # Must match ROS_DOMAIN_ID and RMW in compose.isaac.yaml
+      # Must match ROS_DOMAIN_ID and RMW in Isaac Sim on Windows
       ROS_DOMAIN_ID: "0"
       RMW_IMPLEMENTATION: rmw_fastrtps_cpp
       DISPLAY: ":0"
@@ -36,15 +37,7 @@ services:
       LD_LIBRARY_PATH: /usr/lib/wsl/lib
       GALLIUM_DRIVER: d3d12
       MESA_D3D12_DEFAULT_ADAPTER_NAME: NVIDIA
-    networks:
-      - hexabot_net
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    network_mode: host
     stdin_open: true
     tty: true
     command: /bin/bash
-
-networks:
-  hexabot_net:
-    name: hexabot_net
-    external: true

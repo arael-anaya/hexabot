@@ -50,6 +50,10 @@ services:
       - isaac_data:/root/.local/share/ov/data
       - isaac_docs:/root/Documents
       - /tmp/.X11-unix:/tmp/.X11-unix
+    ports:
+      # WebRTC streaming (Isaac Sim WebRTC Streaming Client on the host)
+      - "49100:49100/tcp"
+      - "47998:47998/udp"
     networks:
       - hexabot_net
 
