@@ -14,6 +14,7 @@ from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
@@ -31,6 +32,9 @@ def generate_launch_description():
         DeclareLaunchArgument('rviz', default_value='true'),
         DeclareLaunchArgument('gait', default_value='tripod',
                               description='Initial gait: tripod, ripple or wave'),
+        DeclareLaunchArgument('heading_offset', default_value='1.5708',
+                              description='Forward direction as a yaw from base_link +x '
+                                          '(rad). Use -1.5708 if it walks backwards.'),
         DeclareLaunchArgument('stand_height', default_value='0.06'),
         DeclareLaunchArgument('stance_radius', default_value='0.11'),
         DeclareLaunchArgument(
@@ -49,6 +53,8 @@ def generate_launch_description():
                  'gait': LaunchConfiguration('gait'),
                  'stand_height': LaunchConfiguration('stand_height'),
                  'stance_radius': LaunchConfiguration('stance_radius'),
+                 'heading_offset': ParameterValue(
+                     LaunchConfiguration('heading_offset'), value_type=float),
              }]),
         # Isaac backend publishes sensor_msgs/JointState; point it at /joint_states
         # so robot_state_publisher consumes it directly.

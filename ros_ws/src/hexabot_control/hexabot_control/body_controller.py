@@ -1,7 +1,9 @@
 import numpy as np
 import rclpy
-from geometry_msgs.msg import Point, Twist
+from geometry_msgs.msg import Point, PoseStamped, TransformStamped, Twist
+from nav_msgs.msg import Path
 from rclpy.node import Node
+from tf2_ros import TransformBroadcaster
 from rclpy.qos import qos_profile_sensor_data
 from std_msgs.msg import String, UInt8
 
@@ -34,6 +36,10 @@ class BodyController(Node):
         self.height_rate = d('height_rate', 0.05).value
         self.cmd_timeout = d('cmd_timeout', 0.3).value
         self.dt = 1.0 / d('rate', 50.0).value
+        # Angle (rad, about base_link z) of the robot's "forward" relative to base_link +x.
+        # The body's long axis is base_link +y, so forward defaults to +90 deg.
+        # Use -1.5708 if it walks backwards, 0.0 for the old behaviour.
+        self.heading_offset = d('heading_offset', float(np.pi / 2)).value
 
         if gait_name not in GAITS:
             raise ValueError(f'gait must be one of {list(GAITS)}')
@@ -56,13 +62,61 @@ class BodyController(Node):
         self.create_service(SetMode, 'set_mode', self._srv_set_mode)
         self.create_service(SetGait, 'set_gait', self._srv_set_gait)
 
+        # Dead-reckoned odometry (open loop: integrates the commanded body velocity)
+        # so RViz can use `odom` as the fixed frame and show the robot travelling.
+        self.publish_odom = d('publish_odom', True).value
+        self.pose = np.zeros(3)  # x, y, yaw in the odom frame
+        self.path = Path()
+        self.path.header.frame_id = 'odom'
+        self.path_len = int(d('path_length', 500).value)
+        self.tf_broadcaster = TransformBroadcaster(self)
+        self.path_pub = self.create_publisher(Path, 'odom_path', 10)
+        self._path_count = 0
+
         self.create_timer(self.dt, self._tick)
         self.get_logger().info('body_controller started')
 
+    def _update_odom(self, stamp):
+        vx, vy, wz = self.vel
+        yaw = self.pose[2]
+        self.pose[0] += (vx * np.cos(yaw) - vy * np.sin(yaw)) * self.dt
+        self.pose[1] += (vx * np.sin(yaw) + vy * np.cos(yaw)) * self.dt
+        self.pose[2] += wz * self.dt
+        qz, qw = float(np.sin(self.pose[2] / 2)), float(np.cos(self.pose[2] / 2))
+
+        tf = TransformStamped()
+        tf.header.stamp = stamp
+        tf.header.frame_id = 'odom'
+        tf.child_frame_id = 'base_link'
+        tf.transform.translation.x = float(self.pose[0])
+        tf.transform.translation.y = float(self.pose[1])
+        tf.transform.rotation.z = qz
+        tf.transform.rotation.w = qw
+        self.tf_broadcaster.sendTransform(tf)
+
+        # Append to the trail at ~10 Hz
+        self._path_count += 1
+        if self._path_count % max(1, int(0.1 / self.dt)) == 0:
+            ps = PoseStamped()
+            ps.header.stamp = stamp
+            ps.header.frame_id = 'odom'
+            ps.pose.position.x = float(self.pose[0])
+            ps.pose.position.y = float(self.pose[1])
+            ps.pose.orientation.z = qz
+            ps.pose.orientation.w = qw
+            self.path.poses.append(ps)
+            del self.path.poses[:-self.path_len]
+            self.path.header.stamp = stamp
+            self.path_pub.publish(self.path)
+
     def _on_cmd_vel(self, msg):
+        vx = clamp(msg.linear.x, -self.max_vx, self.max_vx)
+        vy = clamp(msg.linear.y, -self.max_vy, self.max_vy)
+        # Rotate the "robot forward" command into the base_link frame.
+        c, s = np.cos(self.heading_offset), np.sin(self.heading_offset)
         self.cmd = np.array([
-            clamp(msg.linear.x, -self.max_vx, self.max_vx),
-            clamp(msg.linear.y, -self.max_vy, self.max_vy),
+            c * vx - s * vy,
+            s * vx + c * vy,
             clamp(msg.angular.z, -self.max_wz, self.max_wz)])
         self.last_cmd = self.get_clock().now()
 
@@ -107,6 +161,8 @@ class BodyController(Node):
         return response
 
     def _tick(self):
+        if self.publish_odom:
+            self._update_odom(self.get_clock().now().to_msg())
         if self.mode == MODE_ESTOP:
             return
 

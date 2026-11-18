@@ -12,6 +12,16 @@ Visualization Manager:
       Cell Size: 0.1
       Plane Cell Count: 20
       Color: 160; 160; 164
+      Reference Frame: odom
+    - Class: rviz_default_plugins/Path
+      Name: Trail
+      Enabled: true
+      Topic:
+        Value: /odom_path
+      Color: 255; 200; 0
+      Line Style: Lines
+      Line Width: 0.01
+      Alpha: 1
     - Class: rviz_default_plugins/RobotModel
       Name: RobotModel
       Enabled: true
@@ -33,7 +43,7 @@ Visualization Manager:
       Show Axes: true
       Marker Scale: 0.1
   Global Options:
-    Fixed Frame: base_link
+    Fixed Frame: odom
     Background Color: 48; 48; 48
     Frame Rate: 30
   Tools:
@@ -46,6 +56,7 @@ Visualization Manager:
     Current:
       Class: rviz_default_plugins/Orbit
       Name: Current View
+      Target Frame: base_link
       Distance: 0.8
       Focal Point:
         X: 0
