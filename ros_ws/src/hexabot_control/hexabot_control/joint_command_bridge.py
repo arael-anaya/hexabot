@@ -1,11 +1,11 @@
 
 
-from builtin_interface.msg import Duration
+from builtin_interfaces.msg import Duration
 import numpy as np
 import rclpy
 from rclpy.node import Node
-from rclpy.quos import qos_profile_sensor_data
-from sensor.msgs.msg import JointState
+from rclpy.qos import qos_profile_sensor_data
+from sensor_msgs.msg import JointState
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 from hexabot_control.config import (
@@ -21,34 +21,34 @@ class JointCommandBridge(Node):
     def __init__(self):
         super().__init__('joint_command_bridge')
         d = self.declare_parameter
-        self.backend = d('backend', 'issac').value #seaps between issac or real world
+        self.backend = d('backend', 'isaac').value #swaps between isaac or real world
         self.names = list(d('joint_names', default_joint_names()).value)
         self.sign = np.array(d('joint_sign', DEFAULT_JOINT_SIGN).value, dtype=float)
         self.offset = np.array(d('joint_offset', DEFAULT_JOINT_OFFSET).value, dtype=float)
-        self.min = np.array(d('joint_min', DEFAULT_JOINT_MIN).value, dtype=float)
-        self.max = np.array(d('joint_max', DEFAULT_JOINT_MIN).value, dtype=float)
+        self.jmin = np.array(d('joint_min', DEFAULT_JOINT_MIN).value, dtype=float)
+        self.jmax = np.array(d('joint_max', DEFAULT_JOINT_MAX).value, dtype=float)
         self.max_vel = d('max_joint_vel', 6.0).value
         self.watchdog = d('watchdog_timeout' , 0.2).value
-        self.startup_wait = d('statup_wait' , 1.0).value
+        self.startup_wait = d('startup_wait' , 1.0).value
         self.dt = 1.0 / d('publish_rate', 100.0).value
-        command_topic = d('command_topic' , '/issac/joint_command').value
+        command_topic = d('command_topic' , '/isaac/joint_command').value
         trajectory_topic = d(
             'trajectory_topic', '/joint_trajectory_controller/joint_trajectory').value
 
         for arr in (self.names, self.sign, self.offset, self.jmin, self.jmax):
             if len(arr) != NUM_JOINTS:
-                raise ValueError('joint _* parameters must all have 18 entries')
-            if self.backend not in ('issac', 'ros2_control'):
-                raise ValueError('backend must be "issac" or "ros2_control"')
+                raise ValueError('joint_* parameters must all have 18 entries')
+        if self.backend not in ('isaac', 'ros2_control'):
+            raise ValueError('backend must be "isaac" or "ros2_control"')
 
         self.target = None
-        self.laxt_rx = None
+        self.last_rx = None
         self.first_rx = None
         self.prev = None
         self.actual = {}
 
-        if self.backend == 'issac':
-            self.pub = self.create_publisher(JointState, trajectory_topic, 10)
+        if self.backend == 'isaac':
+            self.pub = self.create_publisher(JointState, command_topic, 10)
         else:
             self.pub = self.create_publisher(JointTrajectory, trajectory_topic, 10)
 
@@ -67,9 +67,9 @@ class JointCommandBridge(Node):
             return
 
         self.target = target
-        self.laxt_rx = self.get_clock().now()
+        self.last_rx = self.get_clock().now()
         if self.first_rx is None:
-            self.first_rx = self.laxt_rx
+            self.first_rx = self.last_rx
 
     def _on_joint_states(self,msg):
         for name, pos in zip(msg.name, msg.position):
@@ -92,7 +92,9 @@ class JointCommandBridge(Node):
         now = self.get_clock().now()
         if self.prev is None:
             self.prev = self._initial_pose(now)
-        if (now - self.laxt_rx).nanoseconds * 1e-9 > self.watchdog:
+            if self.prev is None:
+                return
+        if (now - self.last_rx).nanoseconds * 1e-9 > self.watchdog:
             self.get_logger().warn(
                 'No leg_joint_targets, holding last pose', throttle_duration_sec = 2.0)
         else:
@@ -102,7 +104,7 @@ class JointCommandBridge(Node):
 
 
     def _publish(self, now):
-        if self.backend == 'issac':
+        if self.backend == 'isaac':
             msg = JointState()
             msg.header.stamp = now.to_msg()
             msg.name = self.names

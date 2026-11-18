@@ -23,18 +23,18 @@ class LegIK(Node):
     def _on_tip_targets(self, msg):
         tips = np.array([[p.x,p.y,p.z] for p in msg.positions])
         if tips.shape != (6,3) or not np.all(np.isfinite(tips)):
-            self.get_logger().warn("Bad tip_targers message dropped")
+            self.get_logger().warn("Bad tip_targets message dropped")
             return
         q, reachable = solve_all_legs(tips, self.geom)
         if not reachable.all():
             legs = [i + 1 for i in range(6) if not reachable[i]]
             self.get_logger().warn(
                 f'Tip target out of reach on legs {legs}, clamped', throttle_duration_sec = 2.0)
-            out = LegJointTargets()
-            out.header = msg.header
-            out.position =   q.tolist()
-            out.reachable = [bool(r) for r in reachable]
-            self.pub.publish(out)
+        out = LegJointTargets()
+        out.header = msg.header
+        out.positions = q.tolist()
+        out.reachable = [bool(r) for r in reachable]
+        self.pub.publish(out)
 
 def main(args = None):
     rclpy.init(args = args)

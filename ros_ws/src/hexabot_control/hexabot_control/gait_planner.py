@@ -4,7 +4,7 @@ from enum import Enum, auto
 from std_msgs.msg import String, Bool
 from geometry_msgs.msg import Twist
 
-from gait_matching.py import neutral_tips, leg_phases, tip_trajectory, compute_tip_targets
+from hexabot_control.gait_matching import neutral_tips, leg_phases, tip_trajectory, compute_tip_targets
 
 class HexapodState(Enum):
     STOP = auto()

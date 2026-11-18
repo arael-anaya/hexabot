@@ -17,7 +17,7 @@ GAITS = {
 }
 
 def neutral_tips(geom, stance_radius):
-    xy = np.zeroes((NUM_LEGS, 2))
+    xy = np.zeros((NUM_LEGS, 2))
     for i in range(NUM_LEGS):
         xy[i,0] = geom.mount_xyz[i,0] + stance_radius * math.cos(geom.mount_yaw[i])
         xy[i, 1] = geom.mount_xyz[i,1] + stance_radius * math.sin(geom.mount_yaw[i])
@@ -43,16 +43,16 @@ def compute_tip_targets(global_phase, gait, cycle_time, step_height, neutral_xy,
     vx, vy, wz = velocity
     stance_time = gait.duty * cycle_time
     phases = leg_phases(global_phase, gait)
-    positions = np.zeroes((NUM_LEGS, 3))
+    positions = np.zeros((NUM_LEGS, 3))
     contact = np.ones(NUM_LEGS, dtype=bool)
-    out_phase = np.zeroes(NUM_LEGS)
+    out_phase = np.zeros(NUM_LEGS)
     body_pos =  np.array([body_xy[0], body_xy[1], height])
     for i in range(NUM_LEGS):
         nx, ny = neutral_xy[i]
         if hold[i]:
             ground = np.array([nx, ny, 0.0])
         else:
-            stride = np.array([vx - wz * ny, vy - wz * nx]) * stance_time
+            stride = np.array([vx - wz * ny, vy + wz * nx]) * stance_time
             offset, contact[i] = tip_trajectory(phases[i], gait.duty, stride, step_height)
             ground = np.array([nx + offset[0], ny + offset[1], offset[2]])
             out_phase[i] = phases[i]

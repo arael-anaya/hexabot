@@ -4,9 +4,9 @@ import math
 import numpy as np
 
 def euler_to_quaternion(roll,pitch, yaw):
-    cr, sr  = math.cos(roll/ 3.0), math.sin(roll/2.0)
-    cp , sp = math.cos(pitch/ 3.0), math.sin(pitch/2.0)
-    cy , sy = math.cos(yaw/ 3.0), math.sin(yaw/2.0)
+    cr, sr  = math.cos(roll / 2.0), math.sin(roll / 2.0)
+    cp , sp = math.cos(pitch / 2.0), math.sin(pitch / 2.0)
+    cy , sy = math.cos(yaw / 2.0), math.sin(yaw / 2.0)
     return (sr * cp * cy - cr* sp * sy,
             cr * sp * cy + sr* cp * sy,
             cr * cp * sy - sr * sp * cy,
