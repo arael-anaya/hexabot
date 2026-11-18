@@ -27,6 +27,7 @@ setup(
     'leg_ik = hexabot_control.leg_ik:main',
     'body_controller = hexabot_control.body_controller:main',
     'joint_command_bridge = hexabot_control.joint_command_bridge:main',
+    'keyboard_teleop = hexabot_control.keyboard_teleop:main',
 ]},
 
 )
