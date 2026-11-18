@@ -36,9 +36,7 @@ class BodyController(Node):
         self.height_rate = d('height_rate', 0.05).value
         self.cmd_timeout = d('cmd_timeout', 0.3).value
         self.dt = 1.0 / d('rate', 50.0).value
-        # Angle (rad, about base_link z) of the robot's "forward" relative to base_link +x.
-        # The body's long axis is base_link +y, so forward defaults to +90 deg.
-        # Use -1.5708 if it walks backwards, 0.0 for the old behaviour.
+        # forward direction relative to base_link +x (long axis is +y)
         self.heading_offset = d('heading_offset', float(np.pi / 2)).value
 
         if gait_name not in GAITS:
@@ -62,8 +60,7 @@ class BodyController(Node):
         self.create_service(SetMode, 'set_mode', self._srv_set_mode)
         self.create_service(SetGait, 'set_gait', self._srv_set_gait)
 
-        # Dead-reckoned odometry (open loop: integrates the commanded body velocity)
-        # so RViz can use `odom` as the fixed frame and show the robot travelling.
+        # open-loop odometry from commanded velocity
         self.publish_odom = d('publish_odom', True).value
         self.pose = np.zeros(3)  # x, y, yaw in the odom frame
         self.path = Path()
@@ -94,7 +91,6 @@ class BodyController(Node):
         tf.transform.rotation.w = qw
         self.tf_broadcaster.sendTransform(tf)
 
-        # Append to the trail at ~10 Hz
         self._path_count += 1
         if self._path_count % max(1, int(0.1 / self.dt)) == 0:
             ps = PoseStamped()
@@ -112,7 +108,6 @@ class BodyController(Node):
     def _on_cmd_vel(self, msg):
         vx = clamp(msg.linear.x, -self.max_vx, self.max_vx)
         vy = clamp(msg.linear.y, -self.max_vy, self.max_vy)
-        # Rotate the "robot forward" command into the base_link frame.
         c, s = np.cos(self.heading_offset), np.sin(self.heading_offset)
         self.cmd = np.array([
             c * vx - s * vy,

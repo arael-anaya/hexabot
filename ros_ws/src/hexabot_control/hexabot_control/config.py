@@ -1,5 +1,3 @@
-"""Shared constants and placeholder robot geometry for the hexabot nodes."""
-
 from dataclasses import dataclass
 import math
 
@@ -59,7 +57,6 @@ def default_joint_names():
 
 # loads robot geometry
 def load_geometry(node):
-    """Declare and read the shared geometry parameters on a node."""
     positions = node.declare_parameter('leg_mount_positions', DEFAULT_MOUNT_POSITIONS).value
     yaws = node.declare_parameter('leg_mount_yaw', DEFAULT_MOUNT_YAW).value
     link1 = node.declare_parameter('link1_length', DEFAULT_LINK1).value

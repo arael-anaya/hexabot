@@ -29,15 +29,12 @@ class HexapodFSMNode(Node):
     def __init__(self):
         super().__init__('hexapod_fsm_node')
 
-        # Internal FSM inputs (Boolean flags)
         self.move = False
-        self.type = False       # True = Tripod (Dynamic), False = Wave (Static)
-        self.direction = True   # True = Forward, False = Reverse
+        self.type = False
+        self.direction = True
 
-        # FSM State tracking
         self.current_state = HexapodState.STOP
 
-        # Subscribers for boolean inputs
         self.create_subscription(
             Bool, 'hexapod/cmd_move', self.move_callback, 10
         )
@@ -48,16 +45,13 @@ class HexapodFSMNode(Node):
             Bool, 'hexapod/cmd_direction', self.direction_callback, 10
         )
 
-        # Publishers for FSM status and velocity commands
         self.pub_state = self.create_publisher(String, 'hexapod/current_state', 10)
         self.pub_cmd_vel = self.create_publisher(Twist, 'cmd_vel', 10)
 
-        # Main control loop timer (10 Hz)
         self.timer = self.create_timer(0.1, self.control_loop)
 
         self.get_logger().info('Hexapod FSM Node started.')
 
-    # Topic Callbacks
     def move_callback(self, msg: Bool):
         self.move = msg.data
 
@@ -90,23 +84,18 @@ class HexapodFSMNode(Node):
 
         if self.current_state == HexapodState.IDLE:
             cmd_vel.linear.x = 0.0
-            # Call leg standing/park function here
 
         elif self.current_state == HexapodState.TRIPOD_FORWARD:
-            cmd_vel.linear.x = 0.5  # Dynamic fast forward speed
-            # Trigger tripod gait sequence
+            cmd_vel.linear.x = 0.5
 
         elif self.current_state == HexapodState.TRIPOD_REVERSE:
-            cmd_vel.linear.x = -0.5  # Dynamic fast reverse speed
-            # Trigger tripod reverse gait sequence
+            cmd_vel.linear.x = -0.5
 
         elif self.current_state == HexapodState.TURN_LEFT:
-            cmd_vel.linear.x = 0.2  # Static slow, stable forward speed
-            # Trigger wave gait sequence
+            cmd_vel.linear.x = 0.2
 
         elif self.current_state == HexapodState.TURN_RIGHT:
-            cmd_vel.linear.x = -0.2  # Static slow reverse speed
-            # Trigger wave reverse gait sequence
+            cmd_vel.linear.x = -0.2
 
         self.pub_cmd_vel.publish(cmd_vel)
 

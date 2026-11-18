@@ -1,13 +1,3 @@
-"""Hexapod leg kinematics (no ROS imports).
-
-Leg frame: origin at joint 1, x pointing out along the leg's mount yaw, z up.
-Each leg has three links; joint k drives link k. Joint angles q = (q1, q2, q3), radians:
-  joint 1 - yaw about z, swings the whole leg
-  joint 2 - pitch, positive lifts link 2 up
-  joint 3 - pitch of link 3 relative to link 2; <= 0 folds link 3 down
-The tip is the end of link 3.
-"""
-
 import math
 
 import numpy as np

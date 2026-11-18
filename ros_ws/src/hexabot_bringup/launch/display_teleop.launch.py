@@ -1,10 +1,3 @@
-"""RViz display driven by the keyboard teleop (no joint sliders).
-
-Reuses hexabot_description's display.launch.py with gui:=false, runs the control
-chain, and feeds the bridge's joint commands straight into /joint_states so
-robot_state_publisher animates the model.
-"""
-
 import os
 
 from ament_index_python.packages import get_package_share_directory
@@ -56,8 +49,6 @@ def generate_launch_description():
                  'heading_offset': ParameterValue(
                      LaunchConfiguration('heading_offset'), value_type=float),
              }]),
-        # Isaac backend publishes sensor_msgs/JointState; point it at /joint_states
-        # so robot_state_publisher consumes it directly.
         Node(package='hexabot_control', executable='joint_command_bridge',
              name='joint_command_bridge', output='screen',
              parameters=[{'backend': 'isaac', 'command_topic': '/joint_states'}]),

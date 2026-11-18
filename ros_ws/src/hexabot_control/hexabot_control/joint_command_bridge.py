@@ -14,8 +14,7 @@ from hexabot_control.config import (
 from hexabot_control.limits import slew_array
 from hexabot_interfaces.msg import LegJointTargets
 
-# Hardware/URDF-frame limits; keep in sync with hexabot.urdf.
-# Hip limits are centered on each leg's neutral offset (DEFAULT_JOINT_OFFSET) +/- HIP_RANGE.
+# keep in sync with hexabot.urdf
 HIP_RANGE = 0.4
 DEFAULT_JOINT_MIN = []
 DEFAULT_JOINT_MAX = []
@@ -23,7 +22,6 @@ for _i in range(NUM_LEGS):
     _hip = DEFAULT_JOINT_OFFSET[3 * _i]
     DEFAULT_JOINT_MIN += [round(_hip - HIP_RANGE, 3), -1.0, 0.162]
     DEFAULT_JOINT_MAX += [round(_hip + HIP_RANGE, 3), 1.0, 2.0]
-# Boot pose: joint 3 folded to its lower limit. Held until a non-SIT mode_cmd arrives.
 DEFAULT_BOOT_POSE = [0.0, 0.0, 0.162] * 6
 
 class JointCommandBridge(Node):
@@ -87,7 +85,6 @@ class JointCommandBridge(Node):
             self.first_rx = self.last_rx
 
     def _on_mode(self, msg):
-        # Stay at the boot pose while in SIT; any other mode releases the legs.
         self.hold_boot = msg.data == MODE_SIT
 
     def _on_joint_states(self,msg):
