@@ -10,13 +10,19 @@ from std_msgs.msg import UInt8
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 from hexabot_control.config import (
-    MODE_SIT, DEFAULT_JOINT_OFFSET, DEFAULT_JOINT_SIGN, NUM_JOINTS, default_joint_names)
+    MODE_SIT, DEFAULT_JOINT_OFFSET, DEFAULT_JOINT_SIGN, NUM_JOINTS, NUM_LEGS, default_joint_names)
 from hexabot_control.limits import slew_array
 from hexabot_interfaces.msg import LegJointTargets
 
 # Hardware/URDF-frame limits; keep in sync with hexabot.urdf.
-DEFAULT_JOINT_MIN = [-0.52, -1.0, 0.162] * 6
-DEFAULT_JOINT_MAX = [0.52, 1.0, 2.0] * 6
+# Hip limits are centered on each leg's neutral offset (DEFAULT_JOINT_OFFSET) +/- HIP_RANGE.
+HIP_RANGE = 0.4
+DEFAULT_JOINT_MIN = []
+DEFAULT_JOINT_MAX = []
+for _i in range(NUM_LEGS):
+    _hip = DEFAULT_JOINT_OFFSET[3 * _i]
+    DEFAULT_JOINT_MIN += [round(_hip - HIP_RANGE, 3), -1.0, 0.162]
+    DEFAULT_JOINT_MAX += [round(_hip + HIP_RANGE, 3), 1.0, 2.0]
 # Boot pose: joint 3 folded to its lower limit. Held until a non-SIT mode_cmd arrives.
 DEFAULT_BOOT_POSE = [0.0, 0.0, 0.162] * 6
 

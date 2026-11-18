@@ -8,7 +8,7 @@ from geometry_msgs.msg import Twist
 from rclpy.node import Node
 from std_msgs.msg import String, UInt8
 
-from hexabot_control.config import MODE_ESTOP, MODE_SIT, MODE_STAND, MODE_WALK
+from hexabot_control.config import MODE_ESTOP, MODE_SIT, MODE_WALK
 
 HELP = """
 Hexabot keyboard teleop
@@ -18,15 +18,14 @@ Hexabot keyboard teleop
   a / d   turn left / right
   space   stop
 
-  1 / 2 / 3   tripod / ripple / wave gait
-  z / x / c   sit / stand / walk mode
-  p           emergency stop (press c to recover)
+  x           toggle sit <-> walk (stands up, then walks)
+  g           cycle gait: tripod -> ripple -> wave (applies once stopped)
+  p           emergency stop (press x to recover into walk)
 
   Ctrl-C  quit
 """
 
-GAIT_KEYS = {'1': 'tripod', '2': 'ripple', '3': 'wave'}
-MODE_KEYS = {'z': MODE_SIT, 'x': MODE_STAND, 'c': MODE_WALK, 'p': MODE_ESTOP}
+GAIT_ORDER = ['tripod', 'ripple', 'wave']  # first entry is the default gait
 
 
 class KeyboardTeleop(Node):
@@ -47,6 +46,12 @@ class KeyboardTeleop(Node):
         self.vx = 0.0
         self.vy = 0.0
         self.wz = 0.0
+        self.last_motion_key = None
+        self.walking = False
+        self.gait_index = 0
+
+    def _stop(self):
+        self.vx = self.vy = self.wz = 0.0
         self.last_motion_key = None
 
     def handle_key(self, key):
@@ -69,15 +74,22 @@ class KeyboardTeleop(Node):
         elif key == ' ':
             self.vx = self.vy = self.wz = 0.0
             self.last_motion_key = None
-        elif key in GAIT_KEYS:
-            self.gait_pub.publish(String(data=GAIT_KEYS[key]))
-            print(f'gait: {GAIT_KEYS[key]}')
-        elif key in MODE_KEYS:
-            if key == 'p':
-                self.vx = self.vy = self.wz = 0.0
-                self.last_motion_key = None
-            self.mode_pub.publish(UInt8(data=MODE_KEYS[key]))
-            print(f'mode: {key}')
+        elif key == 'g':
+            self.gait_index = (self.gait_index + 1) % len(GAIT_ORDER)
+            gait = GAIT_ORDER[self.gait_index]
+            self.gait_pub.publish(String(data=gait))
+            print(f'gait: {gait}')
+        elif key == 'x':
+            self._stop()
+            self.walking = not self.walking
+            mode = MODE_WALK if self.walking else MODE_SIT
+            self.mode_pub.publish(UInt8(data=mode))
+            print('mode: walk' if self.walking else 'mode: sit')
+        elif key == 'p':
+            self._stop()
+            self.walking = False
+            self.mode_pub.publish(UInt8(data=MODE_ESTOP))
+            print('mode: ESTOP')
 
     def publish_cmd(self):
         if self.last_motion_key is not None:

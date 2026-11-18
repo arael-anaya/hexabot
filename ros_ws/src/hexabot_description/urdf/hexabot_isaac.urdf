@@ -96,7 +96,7 @@
       link="a1_link1" />
     <axis
       xyz="0 1 0" />
-  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
+  <limit lower="-0.118" upper="0.682" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a1_link2">
@@ -258,7 +258,7 @@
       link="a2_link1" />
     <axis
       xyz="0 1 0" />
-  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
+  <limit lower="-0.400" upper="0.400" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a2_link2">
@@ -420,7 +420,7 @@
       link="a3_link1" />
     <axis
       xyz="0 1 0" />
-  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
+  <limit lower="-0.760" upper="0.040" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a3_link2">
@@ -582,7 +582,7 @@
       link="a4_link1" />
     <axis
       xyz="0 1 0" />
-  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
+  <limit lower="-0.127" upper="0.673" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a4_link2">
@@ -744,7 +744,7 @@
       link="a5_link1" />
     <axis
       xyz="0 1 0" />
-  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
+  <limit lower="-0.399" upper="0.401" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a5_link2">
@@ -906,7 +906,7 @@
       link="a6_link1" />
     <axis
       xyz="0 1 0" />
-  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
+  <limit lower="-0.682" upper="0.118" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a6_link2">
