@@ -86,7 +86,7 @@
   </link>
   <joint
     name="a1_joint1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.0380268829342097 0.0691254749854867 0"
       rpy="1.5707963267949 0 -2.35619449019235" />
@@ -96,6 +96,7 @@
       link="a1_link1" />
     <axis
       xyz="0 1 0" />
+  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a1_link2">
@@ -139,7 +140,7 @@
   </link>
   <joint
     name="a1_joint2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0325 0.000999999999999976 0"
       rpy="0 0 0.257906845565181" />
@@ -149,6 +150,7 @@
       link="a1_link2" />
     <axis
       xyz="0 0 1" />
+  <limit lower="-1.0" upper="1.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a1_link3">
@@ -192,7 +194,7 @@
   </link>
   <joint
     name="a1_joint3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0560817062611382 0.0147933168302249 0"
       rpy="0 0 -1.38585438289412" />
@@ -202,6 +204,7 @@
       link="a1_link3" />
     <axis
       xyz="0 0 1" />
+  <limit lower="0.162" upper="2.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a2_link1">
@@ -245,7 +248,7 @@
   </link>
   <joint
     name="a2_joint1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.05825 0 0"
       rpy="1.5707963267949 0 -3.14159265358979" />
@@ -255,6 +258,7 @@
       link="a2_link1" />
     <axis
       xyz="0 1 0" />
+  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a2_link2">
@@ -298,7 +302,7 @@
   </link>
   <joint
     name="a2_joint2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0325 0.00100000000000004 0"
       rpy="0 0 0.25790684556518" />
@@ -308,6 +312,7 @@
       link="a2_link2" />
     <axis
       xyz="0 0 1" />
+  <limit lower="-1.0" upper="1.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a2_link3">
@@ -351,7 +356,7 @@
   </link>
   <joint
     name="a2_joint3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0560817062611382 0.0147933168302249 0"
       rpy="0 0 -1.38585438289412" />
@@ -361,6 +366,7 @@
       link="a2_link3" />
     <axis
       xyz="0 0 1" />
+  <limit lower="0.162" upper="2.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a3_link1">
@@ -404,7 +410,7 @@
   </link>
   <joint
     name="a3_joint1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.0358906220428593 -0.079191495321058 0"
       rpy="1.5707963267949 0 2.35619449019234" />
@@ -414,6 +420,7 @@
       link="a3_link1" />
     <axis
       xyz="0 1 0" />
+  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a3_link2">
@@ -457,7 +464,7 @@
   </link>
   <joint
     name="a3_joint2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0325 0.000999999999999973 0"
       rpy="0 0 0.257906845565181" />
@@ -467,6 +474,7 @@
       link="a3_link2" />
     <axis
       xyz="0 0 1" />
+  <limit lower="-1.0" upper="1.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a3_link3">
@@ -510,7 +518,7 @@
   </link>
   <joint
     name="a3_joint3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0560817062611382 0.0147933168302249 0"
       rpy="0 0 -1.38585438289412" />
@@ -520,6 +528,7 @@
       link="a3_link3" />
     <axis
       xyz="0 0 1" />
+  <limit lower="0.162" upper="2.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a4_link1">
@@ -563,7 +572,7 @@
   </link>
   <joint
     name="a4_joint1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0358906220428596 -0.0791914953210578 0"
       rpy="1.5707963267949 0 0.872110065432418" />
@@ -573,6 +582,7 @@
       link="a4_link1" />
     <axis
       xyz="0 1 0" />
+  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a4_link2">
@@ -616,7 +626,7 @@
   </link>
   <joint
     name="a4_joint2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0324999999999996 0.0010000000000006 0"
       rpy="0 0 0.163958461134123" />
@@ -626,6 +636,7 @@
       link="a4_link2" />
     <axis
       xyz="0 0 1" />
+  <limit lower="-1.0" upper="1.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a4_link3">
@@ -669,7 +680,7 @@
   </link>
   <joint
     name="a4_joint3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0560817062611382 0.014793316830225 0"
       rpy="0 0 -1.18586803440112" />
@@ -679,6 +690,7 @@
       link="a4_link3" />
     <axis
       xyz="0 0 1" />
+  <limit lower="0.162" upper="2.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a5_link1">
@@ -722,7 +734,7 @@
   </link>
   <joint
     name="a5_joint1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.05825 0 0"
       rpy="1.5707963267949 0 -0.000982569724512225" />
@@ -732,6 +744,7 @@
       link="a5_link1" />
     <axis
       xyz="0 1 0" />
+  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a5_link2">
@@ -775,7 +788,7 @@
   </link>
   <joint
     name="a5_joint2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0325 0.000999999999999911 0"
       rpy="0 0 0.25790684556518" />
@@ -785,6 +798,7 @@
       link="a5_link2" />
     <axis
       xyz="0 0 1" />
+  <limit lower="-1.0" upper="1.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a5_link3">
@@ -828,7 +842,7 @@
   </link>
   <joint
     name="a5_joint3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0560817062611382 0.0147933168302249 0"
       rpy="0 0 -1.38585438289412" />
@@ -838,6 +852,7 @@
       link="a5_link3" />
     <axis
       xyz="0 0 1" />
+  <limit lower="0.162" upper="2.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a6_link1">
@@ -881,7 +896,7 @@
   </link>
   <joint
     name="a6_joint1"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0380268829342097 0.0691254749854867 0"
       rpy="1.5707963267949 0 -0.785398163397448" />
@@ -891,6 +906,7 @@
       link="a6_link1" />
     <axis
       xyz="0 1 0" />
+  <limit lower="-0.52" upper="0.52" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a6_link2">
@@ -934,7 +950,7 @@
   </link>
   <joint
     name="a6_joint2"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0325 0.000999999999999967 0"
       rpy="0 0 0.257906845565181" />
@@ -944,6 +960,7 @@
       link="a6_link2" />
     <axis
       xyz="0 0 1" />
+  <limit lower="-1.0" upper="1.0" effort="2.0" velocity="3.0" />
   </joint>
   <link
     name="a6_link3">
@@ -987,7 +1004,7 @@
   </link>
   <joint
     name="a6_joint3"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="-0.0560817062611381 0.0147933168302249 0"
       rpy="0 0 -1.38585438289412" />
@@ -997,5 +1014,6 @@
       link="a6_link3" />
     <axis
       xyz="0 0 1" />
+  <limit lower="0.162" upper="2.0" effort="2.0" velocity="3.0" />
   </joint>
 </robot>

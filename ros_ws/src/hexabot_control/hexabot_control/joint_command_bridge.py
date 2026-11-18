@@ -6,15 +6,19 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import JointState
+from std_msgs.msg import UInt8
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 from hexabot_control.config import (
-    DEFAULT_JOINT_OFFSET, DEFAULT_JOINT_SIGN, NUM_JOINTS, default_joint_names)
+    MODE_SIT, DEFAULT_JOINT_OFFSET, DEFAULT_JOINT_SIGN, NUM_JOINTS, default_joint_names)
 from hexabot_control.limits import slew_array
 from hexabot_interfaces.msg import LegJointTargets
 
-DEFAULT_JOINT_MIN = [-.9, -1.5, -2.6] * 6
-DEFAULT_JOINT_MAX = [.9, 1.5, 0.05] * 6
+# Hardware/URDF-frame limits; keep in sync with hexabot.urdf.
+DEFAULT_JOINT_MIN = [-0.52, -1.0, 0.162] * 6
+DEFAULT_JOINT_MAX = [0.52, 1.0, 2.0] * 6
+# Boot pose: joint 3 folded to its lower limit. Held until a non-SIT mode_cmd arrives.
+DEFAULT_BOOT_POSE = [0.0, 0.0, 0.162] * 6
 
 class JointCommandBridge(Node):
 
@@ -27,6 +31,7 @@ class JointCommandBridge(Node):
         self.offset = np.array(d('joint_offset', DEFAULT_JOINT_OFFSET).value, dtype=float)
         self.jmin = np.array(d('joint_min', DEFAULT_JOINT_MIN).value, dtype=float)
         self.jmax = np.array(d('joint_max', DEFAULT_JOINT_MAX).value, dtype=float)
+        self.boot_pose = np.array(d('boot_pose', DEFAULT_BOOT_POSE).value, dtype=float)
         self.max_vel = d('max_joint_vel', 6.0).value
         self.watchdog = d('watchdog_timeout' , 0.2).value
         self.startup_wait = d('startup_wait' , 1.0).value
@@ -35,7 +40,7 @@ class JointCommandBridge(Node):
         trajectory_topic = d(
             'trajectory_topic', '/joint_trajectory_controller/joint_trajectory').value
 
-        for arr in (self.names, self.sign, self.offset, self.jmin, self.jmax):
+        for arr in (self.names, self.sign, self.offset, self.jmin, self.jmax, self.boot_pose):
             if len(arr) != NUM_JOINTS:
                 raise ValueError('joint_* parameters must all have 18 entries')
         if self.backend not in ('isaac', 'ros2_control'):
@@ -46,6 +51,8 @@ class JointCommandBridge(Node):
         self.first_rx = None
         self.prev = None
         self.actual = {}
+        self.hold_boot = True
+        self.t0 = self.get_clock().now()
 
         if self.backend == 'isaac':
             self.pub = self.create_publisher(JointState, command_topic, 10)
@@ -54,6 +61,8 @@ class JointCommandBridge(Node):
 
         self.create_subscription(
             LegJointTargets, 'leg_joint_targets', self._on_targets, qos_profile_sensor_data)
+
+        self.create_subscription(UInt8, 'mode_cmd', self._on_mode, 10)
 
         self.create_subscription(
             JointState, 'joint_states', self._on_joint_states, qos_profile_sensor_data)
@@ -71,6 +80,10 @@ class JointCommandBridge(Node):
         if self.first_rx is None:
             self.first_rx = self.last_rx
 
+    def _on_mode(self, msg):
+        # Stay at the boot pose while in SIT; any other mode releases the legs.
+        self.hold_boot = msg.data == MODE_SIT
+
     def _on_joint_states(self,msg):
         for name, pos in zip(msg.name, msg.position):
             self.actual[name] = pos
@@ -81,20 +94,23 @@ class JointCommandBridge(Node):
     def _initial_pose(self, now):
         if all (n in self.actual for n in self.names):
             return np.array([self.actual[n] for n in self.names])
-        if (now - self.first_rx).nanoseconds * 1e-9 > self.startup_wait:
-            self.get_logger().warn('No joint_states received, starting from the first target')
-            return self._to_hardware(self.target)
+        if (now - self.t0).nanoseconds * 1e-9 > self.startup_wait:
+            self.get_logger().warn('No joint_states received, starting from the boot pose')
+            return np.clip(self.boot_pose, self.jmin, self.jmax)
         return None
 
     def _tick(self):
-        if self.target is None:
-            return
         now = self.get_clock().now()
+        if self.target is None and not self.hold_boot:
+            return
         if self.prev is None:
             self.prev = self._initial_pose(now)
             if self.prev is None:
                 return
-        if (now - self.last_rx).nanoseconds * 1e-9 > self.watchdog:
+        if self.hold_boot:
+            goal = np.clip(self.boot_pose, self.jmin, self.jmax)
+            self.prev = slew_array(self.prev, goal, self.max_vel * self.dt)
+        elif (now - self.last_rx).nanoseconds * 1e-9 > self.watchdog:
             self.get_logger().warn(
                 'No leg_joint_targets, holding last pose', throttle_duration_sec = 2.0)
         else:

@@ -40,7 +40,7 @@ class BodyController(Node):
         self.gait = GAITS[gait_name]
         self.pending_gait = None
 
-        self.mode = d('initial_mode', MODE_WALK).value
+        self.mode = d('initial_mode', MODE_SIT).value
         self.neutral_xy = neutral_tips(self.geom, self.stance_radius)
 
         self.phase = 0.0
